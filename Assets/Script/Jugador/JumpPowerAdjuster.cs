@@ -9,10 +9,11 @@ using UnityEngine;
 
 public class JumpPowerAdjuster : MonoBehaviour
 {
-    public float jumpForceIncrement = 1f;
-    public float minJumpForce = 5f;
-    public float maxJumpForce = 20f;
+    public float jumpForceIncrement = 1f;   // cuanto cambia la fuerza con cada tecla
+    public float minJumpForce = 5f;   // fuerza minima
+    public float maxJumpForce = 20f;   // fuerza maxima
 
+    // Recibe un objeto Jump y le cambia la fuerza de salto con las teclas + y -
     public void AdjustJumpForce(Jump jump)
     {
         if (Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadPlus))

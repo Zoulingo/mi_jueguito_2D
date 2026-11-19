@@ -12,8 +12,9 @@ using UnityEngine;
 public class Jump : ComponenteJugador
 {
     public float jumpForce = 10f; // Fuerza del salto inicial
-    private bool isGrounded = true;
+    private bool isGrounded = true;   // true si esta pisando el suelo
 
+    // Salta solo si esta en el suelo (impulso hacia arriba)
     public void TryJump(Rigidbody2D rb)
     {
         if (isGrounded)
@@ -23,6 +24,7 @@ public class Jump : ComponenteJugador
         }
     }
 
+    // Mientras toca algo con el tag Suelo_01 revisa que el contacto venga desde abajo (normal.y > 0.5)
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Suelo_01")) return;

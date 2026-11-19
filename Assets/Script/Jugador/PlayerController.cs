@@ -7,6 +7,9 @@ Modificación: Clase que se asigna al objeto de juego
 */
 using UnityEngine;
 
+/// <summary>
+/// Coordina al jugador: lee el teclado y delega en Movement, Jump, Flip y JumpPowerAdjuster.
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(Jump))]
@@ -15,22 +18,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Referencias a los componentes (objetos de otras clases) que coordina PlayerController
     private Rigidbody2D rb;
     private Movement movement;
     private Jump jump;
     private Flip flip;
     private JumpPowerAdjuster jumpPowerAdjuster;
 
+    // Obtiene los componentes del mismo objeto y avisa en la consola si falta alguno
     void Start()
     {
-		/*
-		rb = GetComponent<Rigidbody2D>();
-		rb.freezeRotation = true;  // Evita que el objeto rote
-		movement = GetComponent<Movement>();
-		jump = GetComponent<Jump>();
-		flip = GetComponent<Flip>();
-		jumpPowerAdjuster = GetComponent<JumpPowerAdjuster>();
-		*/
 		rb = GetComponent<Rigidbody2D>();
 		if (rb == null) Debug.LogError("Rigidbody2D no asignado");
 		rb.freezeRotation = true;
@@ -49,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    // Cada cuadro lee el teclado y delega el trabajo en cada componente
     void Update()
     {
         // Movimiento horizontal

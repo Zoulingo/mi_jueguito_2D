@@ -4,6 +4,7 @@ Fecha:25/10/2024
 Licencia:Open estudiantil
 Funcionalidad: mueve el objeto de iz. a dr. y con la espaciadora salta.
 Modificación: Clase que realiza el movimiento (con sonido de pasos y correr con Shift)
+Modificación 2: hereda de ComponenteJugador
 */
 using UnityEngine;
 
@@ -13,8 +14,9 @@ public class Movement : ComponenteJugador
     public float multiplicadorCorrer = 1.6f; // Se multiplica la velocidad al mantener Shift
     public float intervaloPasos = 0.35f;  // Segundos entre cada paso
 
-    private float proximoPaso;
+    private float proximoPaso;   // momento del proximo sonido de paso
 
+    // Mueve al personaje en horizontal (con Shift corre) y reproduce los pasos
     public void Move(Rigidbody2D rb, float moveInput)
     {
         bool corriendo = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
@@ -32,6 +34,7 @@ public class Movement : ComponenteJugador
         }
     }
 
+    // Devuelve true si hay suelo justo debajo de los pies del personaje
     bool EstaEnSuelo(Rigidbody2D rb)
     {
         Collider2D col = rb.GetComponent<Collider2D>();

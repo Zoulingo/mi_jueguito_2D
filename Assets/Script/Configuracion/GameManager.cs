@@ -1,4 +1,11 @@
 /*
+Autor: Bryan
+Fecha: Noviembre 2026
+Licencia: Open estudiantil
+Funcionalidad: Controla el flujo del juego: pantalla de inicio, puntaje, record, fin de la partida y reinicio.
+Uso: Va en el objeto GameManager de la escena.
+*/
+/*
 CREDITOS
 - Musica de fondo: "Night Runner (Chiptune Edit)" - Lightyeartraxx
 - Sprites de enemigos y mazmorra: DungeonTilesetII - 0x72
@@ -7,11 +14,14 @@ CREDITOS
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Controla el estado del juego: inicio, puntaje, fin de la partida y reinicio.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance;   // Singleton: los demas scripts lo usan con GameManager.Instance
 
-    public GameObject jugador;
+    public GameObject jugador;   // el mago (si se deja vacio se busca por el tag Player)
     public AudioSource musicaFondo;   // si lo dejas vacío, busca el objeto "Musica" solo
 
     [Header("Pantalla de inicio")]
@@ -22,20 +32,22 @@ public class GameManager : MonoBehaviour
     private static bool inicioMostrado = false;
     private bool iniciado = false;
 
-    private int puntaje = 0;
-    private int record;
+    private int puntaje = 0;   // puntos de la partida actual
+    private int record;   // mejor puntaje (se guarda con PlayerPrefs)
 
-    private bool juegoTerminado = false;
+    private bool juegoTerminado = false;   // true cuando el jugador murio o cayo
     private float tiempoFin;
     private GUIStyle estiloTitulo;
     private GUIStyle estiloTexto;
     private GUIStyle estiloPuntaje;
 
+    // Guarda la instancia (Singleton)
     void Awake()
     {
         Instance = this;
     }
 
+    // Prepara la partida: pausa el juego hasta la pantalla de inicio y carga el record guardado
     void Start()
     {
         iniciado = inicioMostrado;
@@ -50,6 +62,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Suma puntos (lo llaman los enemigos al morir) y reproduce el sonido de puntaje.
+    /// </summary>
     public void SumarPuntos(int cantidad)
     {
         if (juegoTerminado) return;
@@ -59,6 +74,7 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.Reproducir(AudioManager.Instance.sonidoPuntaje);
     }
 
+    // Cada cuadro revisa en que estado esta el juego: inicio, jugando o fin
     void Update()
     {
         // Pantalla de inicio: espera una tecla para comenzar
@@ -99,6 +115,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Pausa el juego, detiene la musica, reproduce los sonidos de fin y guarda el record si se supero
     void TerminarJuego()
     {
         juegoTerminado = true;
@@ -121,6 +138,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Crea los estilos de texto que se usan en pantalla (OnGUI)
     void CrearEstilos()
     {
         estiloTitulo = new GUIStyle(GUI.skin.label);
@@ -141,6 +159,7 @@ public class GameManager : MonoBehaviour
         estiloPuntaje.normal.textColor = Color.yellow;
     }
 
+    // Dibuja la pantalla de inicio con los controles y los creditos
     void DibujarInicio()
     {
         Color anterior = GUI.color;
@@ -183,6 +202,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // OnGUI dibuja el texto en pantalla: inicio, puntaje durante el juego o pantalla de fin
     void OnGUI()
     {
         if (estiloTitulo == null) CrearEstilos();

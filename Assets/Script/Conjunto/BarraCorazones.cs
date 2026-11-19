@@ -1,20 +1,32 @@
+/*
+Autor: Bryan
+Fecha: Noviembre 2026
+Licencia: Open estudiantil
+Funcionalidad: Muestra la vida del personaje como corazones sobre su cabeza.
+Uso: Va en el mago y en los enemigos (necesita el componente Vida).
+*/
 using UnityEngine;
 
+/// <summary>
+/// Dibuja los corazones de vida sobre la cabeza del personaje.
+/// </summary>
 public class BarraCorazones : MonoBehaviour
 {
+    // Dibujos de corazon que se arrastran desde el Inspector
     public Sprite corazonLleno;
     public Sprite corazonMedio;
     public Sprite corazonVacio;
-    public int corazones = 3;
+    public int corazones = 3;   // cantidad de corazones que se muestran
     public int puntosPorCorazon = 2;   // 2 = medio corazon por golpe, 1 = un corazon por golpe
     public float alturaY = 0.7f;       // que tan arriba de la cabeza
-    public float separacion = 0.42f;
-    public float escala = 0.45f;
+    public float separacion = 0.42f;   // distancia entre corazones
+    public float escala = 0.45f;   // tamano de cada corazon
 
-    private Vida vida;
-    private Transform contenedor;
-    private SpriteRenderer[] renderers;
+    private Vida vida;   // de aqui se lee la vida actual
+    private Transform contenedor;   // objeto que agrupa los corazones
+    private SpriteRenderer[] renderers;   // un SpriteRenderer por corazon
 
+    // Crea por codigo el contenedor y los corazones como hijos del personaje (asi lo siguen)
     void Start()
     {
         vida = GetComponent<Vida>();
@@ -36,6 +48,7 @@ public class BarraCorazones : MonoBehaviour
         }
     }
 
+    // Cada cuadro elige el dibujo de cada corazon: lleno, medio o vacio
     void LateUpdate()
     {
         if (vida == null || contenedor == null) return;

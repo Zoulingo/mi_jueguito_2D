@@ -1,11 +1,22 @@
+/*
+Autor: Bryan
+Fecha: Noviembre 2026
+Licencia: Open estudiantil
+Funcionalidad: Dispara una bola de fuego hacia donde esta el mouse al hacer clic izquierdo.
+Uso: Va en el mago. Se asigna el prefab BolaFuego.
+*/
 using UnityEngine;
 
+/// <summary>
+/// Lanza una bola de fuego hacia el mouse al hacer clic izquierdo.
+/// </summary>
 public class LanzadorMagia : MonoBehaviour
 {
-    public GameObject proyectilPrefab;
-    public float cooldown = 0.5f;
-    private float proximoDisparo;
+    public GameObject proyectilPrefab;   // prefab de la bola de fuego
+    public float cooldown = 0.5f;   // segundos entre disparos
+    private float proximoDisparo;   // momento en que puede volver a disparar
 
+    // Clic izquierdo = dispara (respetando el tiempo de espera)
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && Time.time >= proximoDisparo)
@@ -15,6 +26,7 @@ public class LanzadorMagia : MonoBehaviour
         }
     }
 
+    // Calcula la direccion hacia el mouse, crea el proyectil rotado hacia alla y reproduce el sonido
     void Disparar()
     {
         Vector3 mouseMundo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
